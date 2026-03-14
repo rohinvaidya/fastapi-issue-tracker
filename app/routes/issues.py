@@ -5,7 +5,7 @@ from app.schemas import IssueCreate, IssueStatus, IssueUpdate, IssueOut, User
 from app.storage import load_data, save_data
 from app.auth import get_current_active_user
 
-router = APIRouter(prefix="/api/v1/issues", tags=["issues"])
+router = APIRouter(prefix="/api/v1/issues", tags=["Issues"])
 
 @router.get("/", response_model=list[IssueOut])
 def get_issues(current_user: Annotated[User, Depends(get_current_active_user)]):
