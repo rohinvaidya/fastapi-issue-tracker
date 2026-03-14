@@ -1,9 +1,16 @@
 from fastapi import FastAPI
-from app.routes.issues import router as issues_router
+
 from app.middleware.timer import timing_middleware
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.routes.issues import router as issues_router
+from app.routes.auth import router as auth_router
+
+app = FastAPI(
+    title="Issue Tracker API",
+    description="A simple API for tracking issues, built with FastAPI.",
+    version="1.0.0"
+)
 
 app.middleware("http")(timing_middleware)
 
@@ -14,30 +21,9 @@ app.add_middleware(
     allow_methods=["*"], 
     allow_headers=["*"])
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+app.include_router(auth_router)
 app.include_router(issues_router)
-
-# items = [
-#     {"id": 1, "name": "Item 1"},
-#     {"id": 2, "name": "Item 2"},
-#     {"id": 3, "name": "Item 3"},
-# ]
-
-# @app.get("/health")
-# def health_check():
-#     return {"status": "ok"}
-
-# @app.get("/items")
-# def get_items():
-#     return items
-
-# @app.get("/items/{item_id}")
-# def get_item(item_id: int):
-#     for item in items:
-#         if item["id"] == item_id:
-#             return item
-#     return {"error": "Item not found"}
-
-# @app.post("/items")
-# def create_item(item: dict):
-#     items.append(item)
-#     return item
