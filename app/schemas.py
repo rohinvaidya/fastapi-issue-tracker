@@ -24,7 +24,7 @@ class IssueUpdate(BaseModel):
     status: Optional[IssueStatus] = None
 
 class IssueOut(BaseModel):
-    id: int
+    id: str
     title: str
     description: str
     priority: IssuesPriority
