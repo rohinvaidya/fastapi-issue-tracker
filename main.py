@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from app.routes.issues import router as issues_router
+from app.middleware.timer import timing_middleware
 
 app = FastAPI()
 
-app.include_router(issues_router)
+app.middleware("http")(timing_middleware)
 
+app.include_router(issues_router)
 
 # items = [
 #     {"id": 1, "name": "Item 1"},
